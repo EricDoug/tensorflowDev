@@ -1,6 +1,6 @@
 # -*- coding:utf-8 -*-
 __author__ = 'EricDoug'
-import csv
+import requests
 
 def f_write(rows, file, header=None):
     """
@@ -15,3 +15,19 @@ def f_write(rows, file, header=None):
         if header:
             f.write(header)
         f.writelines(rows)
+
+
+def downloadfileByurl(url, file):
+    """
+    从url下载文件
+    :param url: url地址
+    :param file: 存储文件地址
+    :return:
+    """
+
+    res = requests.get(url)
+    res.raise_for_status()
+
+    with open(file, 'wb') as f:
+        for chunk in res.iter_content(100000):
+            f.write(chunk)
